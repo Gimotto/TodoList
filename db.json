@@ -1,0 +1,44 @@
+{
+  "todos": [
+    {
+      "title": "Bootstrap documentation",
+      "category": "Lavoro",
+      "priority": "alta",
+      "description": "Studiare la documentazione di bootstrap v3",
+      "done": "false",
+      "id": 2
+    },
+    {
+      "title": "committare su repository github",
+      "category": "Lavoro",
+      "priority": "media",
+      "description": "",
+      "id": 3,
+      "done": "false"
+    },
+    {
+      "title": "Rifare il letto",
+      "category": "Casa",
+      "priority": "bassa",
+      "description": "",
+      "id": 4,
+      "done": "true"
+    },
+    {
+      "title": "Orario",
+      "category": "Lavoro",
+      "priority": "alta",
+      "description": "Essere in anticipo",
+      "id": 5,
+      "done": "true"
+    },
+    {
+      "title": "Creare la repository su github",
+      "category": "Lavoro",
+      "priority": "alta",
+      "description": "Crea una reposiory su github per caricare questo project",
+      "done": "false",
+      "id": 6
+    }
+  ]
+}

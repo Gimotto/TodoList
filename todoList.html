@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TO-DO</title>
+</head>
+<body>
+    <form id="formAdd">
+        <div id="contenitore">
+            <p><sup>*</sup>Titolo:   <input type="text" name="title"></p>
+                
+            <p><sup>*</sup>Categoria :   <select name="category">
+                <option value=""></option>
+                <option value="Casa">Casa</option>
+                <option value="Lavoro">Lavoro</option>
+                <option value="Famiglia">Famiglia</option>
+                <option value="Palestra">Palestra</option>
+            </select></p>
+                
+            <p>Priorità:    
+                <input type="radio" name="priority" value="alta">Alta
+                <input type="radio" name="priority" checked value="media">Media
+                <input type="radio" name="priority" value="bassa">Bassa
+            </p>
+
+            <p>Descrizione:         <textarea type="text" name="description"></textarea></p>
+            <input type="submit" value="Add">
+            <input type="button" id="deleteEdit" style="display: none;" value="Delete edit">
+            <input type="button" id="confirmEdit" style="display: none" value="Confirm edit">
+        </div>
+    </form>
+
+    <br>
+    <div id="contenitoreTabs">
+        <!--button class="active">TODOS</button><button>DONE</button-->
+        <div id="contenitoreTodo"><h1>TODOS</h1><ul></ul></div>
+        <div id="contenitoreDone"><h1>DONE</h1><ul></ul></div>
+    </div>
+
+    
+    
+    
+    <script src="jquery.min.js"></script>
+    <script src="todoList.js"></script>
+</body>
+</html>
