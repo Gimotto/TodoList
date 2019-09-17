@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>TO-DO</title>
+    <link rel="stylesheet" href="todoList.css">
 </head>
 <body>
     <form id="formAdd">
@@ -22,18 +23,22 @@
                 <input type="radio" name="priority" value="bassa">Bassa
             </p>
 
-            <p>Descrizione:         <textarea type="text" name="description"></textarea></p>
+            <p>Descrizione:         
+                <textarea type="text" name="description"></textarea>
+            </p>
+
             <input type="submit" value="Add">
-            <input type="button" id="deleteEdit" style="display: none;" value="Delete edit">
-            <input type="button" id="confirmEdit" style="display: none" value="Confirm edit">
+            <input type="button" id="deleteEdit" value="Delete edit">
+            <input type="button" id="confirmEdit" value="Confirm edit">
         </div>
     </form>
 
     <br>
     <div id="contenitoreTabs">
+        <p><select name="selectLi"></select><button name="confirmSelect" onclick="confirmSelect()">Confirm</button></p>
         <!--button class="active">TODOS</button><button>DONE</button-->
-        <div id="contenitoreTodo"><h1>TODOS</h1><ul></ul></div>
-        <div id="contenitoreDone"><h1>DONE</h1><ul></ul></div>
+        <div id="contenitoreTodo"><h1>TODOS</h1> <ul>  </ul> </div>
+        <div id="contenitoreDone"><h1>DONE</h1> <ul>  </ul> </div>
     </div>
 
     

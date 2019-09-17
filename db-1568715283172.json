@@ -1,19 +1,13 @@
 {
   "todos": [
     {
-      "title": "Bootstrap documentation",
+      "title": "Bootstrap Doc",
       "category": "Lavoro",
       "priority": "alta",
       "description": "Studiare la documentazione di bootstrap v3",
-      "id": 1
-    },
-    {
-      "title": "html + bootstrap",
-      "category": "Lavoro",
-      "priority": "alta",
-      "description": "",
+      "done": "false",
       "id": 2,
-      "done": false
+      "checked": "true"
     },
     {
       "title": "committare su repository github",
@@ -21,7 +15,7 @@
       "priority": "media",
       "description": "",
       "id": 3,
-      "done": false
+      "done": "false"
     },
     {
       "title": "Rifare il letto",
@@ -29,7 +23,8 @@
       "priority": "bassa",
       "description": "",
       "id": 4,
-      "done": true
+      "done": "true",
+      "checked": "true"
     },
     {
       "title": "Orario",
@@ -37,7 +32,15 @@
       "priority": "alta",
       "description": "Essere in anticipo",
       "id": 5,
-      "done": true
+      "done": "true"
+    },
+    {
+      "title": "Creare la repository su github",
+      "category": "Lavoro",
+      "priority": "alta",
+      "description": "Crea una reposiory su github per caricare questo project",
+      "done": "false",
+      "id": 6
     }
   ]
 }

@@ -1,12 +1,13 @@
 {
   "todos": [
     {
-      "title": "Bootstrap documentation",
+      "title": "Bootstrap Doc",
       "category": "Lavoro",
       "priority": "alta",
       "description": "Studiare la documentazione di bootstrap v3",
       "done": "false",
-      "id": 2
+      "id": 2,
+      "checked": "true"
     },
     {
       "title": "committare su repository github",
@@ -22,7 +23,8 @@
       "priority": "bassa",
       "description": "",
       "id": 4,
-      "done": "true"
+      "done": "true",
+      "checked": "true"
     },
     {
       "title": "Orario",

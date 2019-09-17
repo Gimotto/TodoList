@@ -1,0 +1,6 @@
+li{
+    list-style: none;
+}
+#contenitoreTabs p, #deleteEdit, #confirmEdit{
+    display: none;
+}
