@@ -13,15 +13,26 @@ $(document).ready(function(){
             done: false
         };
 
-        //Validazione del campo titolo (essendo l'unico obbligatorio)
-        if(!inputs.title){
+        //Validazione dei campi: titolo e categoria 
+        if(!inputs.title && !inputs.category){
             $('input[name=title]')
             .css('border', 'solid 1px red')
             .attr('placeholder', 'Campo obbligatiorio')
+            $('select[name=category]')
+            .css('border', 'solid 1px red')
+            .children('#nullOption')
+            .remove()
+            $('select[name=category]').prepend('<option id="nullOption" value="" selected>--Select Category--</option>')
         }else if(!inputs.category){
             $('select[name=category]')
             .css('border', 'solid 1px red')
-            .attr('placeholder', 'Campo obbligatorio')
+            .children('#nullOption')
+            .remove()
+            $('select[name=category]').prepend('<option id="nullOption" value="" selected>--Select Category--</option>')
+        } else if(!inputs.title){
+            $('input[name=title]')
+            .css('border', 'solid 1px red')
+            .attr('placeholder', 'Campo obbligatiorio')
         } else {
             //chiamata in POST al server per aggiungere la nuova riga alla lista
             $.ajax({
@@ -84,7 +95,22 @@ $(document).ready(function(){
             description: $('textarea[name=description').val(),
             done: false
         };
-        if(!inputs.title){
+        if(!inputs.title && !inputs.category){
+            $('input[name=title]')
+            .css('border', 'solid 1px red')
+            .attr('placeholder', 'Campo obbligatiorio')
+            $('select[name=category]')
+            .css('border', 'solid 1px red')
+            .children('#nullOption')
+            .remove()
+            $('select[name=category]').prepend('<option id="nullOption" value="">--Select Category--</option>')
+        }else if(!inputs.category){
+            $('select[name=category]')
+            .css('border', 'solid 1px red')
+            .children('#nullOption')
+            .remove()
+            $('select[name=category]').prepend('<option id="nullOption" value="">--Select Category--</option>')
+        } else if(!inputs.title){
             $('input[name=title]')
             .css('border', 'solid 1px red')
             .attr('placeholder', 'Campo obbligatiorio')
@@ -119,6 +145,27 @@ $('#selectAllDone').on('click', function(){
     $(this).hide();
 })
 
+//apre la modale e cambia il bottone di conferma a seconda dell'azione da compiere
+function openModal(id, task, title){
+    $('#modalTitle').html('Are you sure?');
+    $('div.modal-footer').html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Nope, Close</button>');
+    switch(task){
+        case 'todo':
+            $('div.modal-body').html('Confirm to delete "'+$('#contenitoreTodo input[type=checkbox]').filter(':checked').length+'" element from the list TODO?');
+            $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Delete</button>');
+            break;
+        case 'done':
+            $('div.modal-body').html('Confirm to delete "'+$('#contenitoreDone input[type=checkbox]').filter(':checked').length+'" element from the list DONE?');
+            $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Delete</button>');
+            break;
+        default:
+            $('div.modal-body').html('Confirm to delete: "'+title+'"');
+            $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="deleteTodo('+id+')">Yep, Delete</button>');        
+            break;
+
+    }
+    $('#modal').modal();
+}
 //elimina un elemento dalla lista
 function deleteTodo(id){
     //chiamata in DELETE al server per eliminare un elemento 
@@ -162,7 +209,7 @@ function updateTodoList(){
             $.each(a, function(i){
                 //per ogni oggetto nel file json controlla se è da fare oppure già fatto e inseridcilo nella giusta lista
                 if(a[i].done==true||a[i].done=='true'){
-                    $('#contenitoreDone div table tbody').append('<tr id="'+i+'"><td><input type="checkbox" class="'+a[i].id+'" onchange="checkLi('+a[i].id+','+a[i].done+', this)"> &nbsp; &nbsp;<i class="material-icons" onclick="deleteTodo('+a[i].id+')">delete</i>&nbsp;<i class="material-icons" onclick="check('+a[i].id+', '+a[i].done+')">check_circle</i></td></tr>')
+                    $('#contenitoreDone div table tbody').append('<tr id="'+i+'"><td><input type="checkbox" class="'+a[i].id+'" onchange="checkLi('+a[i].id+','+a[i].done+', this)"> &nbsp; &nbsp;<i class="material-icons" onclick="openModal('+a[i].id+', \'delete\', \''+a[i].title+'\')">delete</i>&nbsp;<i class="material-icons" onclick="check('+a[i].id+', '+a[i].done+')">check_circle</i></td></tr>')
                     $.each(a[i], function(name, value){
                         if(name!='id' && name!='done' && name!='checked'){
                             switch(value){
@@ -182,7 +229,7 @@ function updateTodoList(){
                         }
                     });
                 }else{
-                    $('#contenitoreTodo div table tbody').append('<tr id="'+i+'"><td><input type="checkbox" class="'+a[i].id+'" onchange="checkLi('+a[i].id+','+a[i].done+', this)"> &nbsp; &nbsp;<i class="material-icons" onclick="editTodo('+a[i].id+')">edit</i>&nbsp;<i class="material-icons" onclick="deleteTodo('+a[i].id+')">delete</i>&nbsp;<i class="material-icons" onclick="check('+a[i].id+')">check_circle_outline</i></td></tr>')
+                    $('#contenitoreTodo div table tbody').append('<tr id="'+i+'"><td><input type="checkbox" class="'+a[i].id+'" onchange="checkLi('+a[i].id+','+a[i].done+', this)"> &nbsp; &nbsp;<i class="material-icons" onclick="editTodo('+a[i].id+')">edit</i>&nbsp;<i class="material-icons" onclick="openModal('+a[i].id+', \'delete\', \''+a[i].title+'\')">delete</i>&nbsp;<i class="material-icons" onclick="check('+a[i].id+')">check_circle_outline</i></td></tr>')
                     $.each(a[i], function(name, value){
                         if(name!='id' && name!='done' && name!='checked'){
                             switch(value){
@@ -203,6 +250,10 @@ function updateTodoList(){
                     });
                 }
             });
+        },
+        //Errore
+        error: function(e){
+            alert('Error! Connection refused, server down!')
         }
     });
 }
@@ -233,8 +284,7 @@ function checkLi(id, done, th){
         case true:
             //confronta se la riga si trova nella lista todo oppure done
             if(done){
-                
-                //rimuovo le opzioni per un nuovo rendering che mostra le opzioni "ancora da fare" o "elimina"
+                //rimuove le opzioni per un nuovo rendering che mostra le opzioni "ancora da fare" o "elimina"
                 $('select[name=selectDone] option').remove();
                 $('select[name=selectDone]').append('<option selected><option value="stillTodo">Still Todo</option></option><option value="delete">Delete</option>');       
                 //inserisce nell'array un oggetto con le chiavi id e checked per poi apportare le modifiche
@@ -249,9 +299,11 @@ function checkLi(id, done, th){
             }
             break;
         case false:
+                //se i checkbox della lista Todo non sono tutti attivati allora mostra il tasto select  
                 if($('#contenitoreTodo input[type=checkbox]').length != $('#contenitoreTodo input[type=checkbox]').filter(':checked').length){
                     $('#selectAllTodo').show();
                 }
+                //se i checkbox della lista Done non sono tutti attivati allora mostra il tasto select
                 if($('#contenitoreDone input[type=checkbox]').length != $('#contenitoreDone input[type=checkbox]').filter(':checked').length){
                     $('#selectAllDone').show();
                 }

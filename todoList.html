@@ -12,6 +12,25 @@
     <title>TO-DO</title>
 </head>
 <body>
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalTitle">Titolo</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          ...
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Nope, Close</button>
+                          <!--button type="button" class="btn btn-primary">TASK</button-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
     <form class="jumbotron" id="formAdd">
         <div class="form-inline  row justify-content-center">
             <sup>*</sup>Title:&nbsp;
@@ -21,7 +40,7 @@
         <div class="form-inline  row justify-content-center">
             <sup>*</sup>Category: &nbsp;
             <select name="category">
-                    <option value="">--Select a category--</option>
+                    <option selected id="nullOption" value=""></option>
                     <option value="Casa">Casa</option>
                     <option value="Lavoro">Lavoro</option>
                     <option value="Famiglia">Famiglia</option>
@@ -54,7 +73,7 @@
             
             
         <!--Bottoni per cambiare la lista-->
-        <button id="todos" class="active" style="width: 75%" disabled="true"><h3>TODOS</h3></button><button id="done" class="deactive" style="width: 25%"><h3>DONE</h3></button>
+        <button id="todos" class="active" style="width: 75%" disabled="true"><h3>TODO</h3></button><button id="done" class="deactive" style="width: 25%"><h3>DONE</h3></button>
             
         <!--Contenitore Todo-->
         <div class="container-fluid" id="contenitoreTodo">
@@ -65,7 +84,7 @@
                             <th class="text-left" scope="col"><button id="selectAllTodo">Select all </button>
                                 <p>
                                         <select name="selectTodo"></select>
-                                        <button name="confirmSelect" onclick="confirmSelect()">Confirm</button>
+                                        <button name="confirmSelect" onclick="openModal(null, 'todo', null)">Confirm</button>
                                     </p>
                             </th>
                             <th class="text-left" scope="col">Title</th>
@@ -88,7 +107,7 @@
                             <th class="text-left"><button id="selectAllDone">Select all</button>
                                 <p>
                                         <select name="selectDone"></select>
-                                        <button name="confirmSelect" onclick="confirmSelect()">Confirm</button>
+                                        <button name="confirmSelect" onclick="openModal(null, 'done', null)">Confirm</button>
                                     </p>
                             </th>
                             <th class="text-left" scope="col">Title</th>
