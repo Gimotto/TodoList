@@ -39,25 +39,27 @@ $(document).ready(function(){
 
     //Al click del bottone todos, mostra la lista todo e nasconde la lista done
     $('button#todos').on('click', function(){
-        $('#contenitoreTodo').css('display', 'block');
-        $('#contenitoreDone').css('display', 'none');
-        $('button#todos').css({'width': '75%', 'transition-propety': 'width', 'transition-duration': '750ms'})
-        $('button#done').css({'width': '25%', 'transition-propety': 'width', 'transition-duration': '750ms'})
-        $('#contenitoreTabs p').css('display', 'none');
+        $('#contenitoreTodo').show();
+        $('#contenitoreDone').hide();
+        $('button#todos').css({'width': '75%', 'transition-propety': 'width', 'transition-duration': '750ms'}).attr('disabled', true)
+        $('button#done').css({'width': '25%', 'transition-propety': 'width', 'transition-duration': '750ms'}).attr('disabled', false)
+        $('#contenitoreTabs p').hide();
         $('select[name=selectTodo]').css('border', 'none');
         $('select[name=selectDone]').css('border', 'none');
         $('#contenitoreDone input[type=checkbox]').prop('checked', false);
+        $('#selectAllTodo').show();
     })
     //Al click del bottone done, mostra la lista done e nasconde la lista todos
     $('button#done').on('click', function(){
-        $('#contenitoreTodo').css('display', 'none');
-        $('#contenitoreDone').css('display', 'block');
-        $('button#todos').css({'width': '25%', 'transition-propety': 'width', 'transition-duration': '750ms'})
-        $('button#done').css({'width': '75%', 'transition-propety': 'width', 'transition-duration': '750ms'})
-        $('#contenitoreTabs p').css('display', 'none');
+        $('#contenitoreTodo').hide();
+        $('#contenitoreDone').show();
+        $('button#todos').css({'width': '25%', 'transition-propety': 'width', 'transition-duration': '750ms'}).attr('disabled', false)
+        $('button#done').css({'width': '75%', 'transition-propety': 'width', 'transition-duration': '750ms'}).attr('disabled', true)
+        $('#contenitoreTabs p').hide();
         $('select[name=selectTodo]').css('border', 'none');
         $('select[name=selectDone]').css('border', 'none');
         $('#contenitoreTodo input[type=checkbox]').prop('checked', false);
+        $('#selectAllDone').show();
     })
     
     //Annulla la modifica di un elemento
@@ -66,10 +68,10 @@ $(document).ready(function(){
         $('select[name=category]').val(null);
         $('input[name=priority][value="media"]').prop('checked', true);
         $('textarea[name=description').val(null);
-        $('#deleteEdit').css('display', 'none');
-        $('input[type=submit]').css('display', 'block');
-        $('#deleteEdit').css('display', 'none');
-        $('#confirmEdit').css('display', 'none');
+        $('#deleteEdit').hide();
+        $('input[type=submit]').show();
+        $('#deleteEdit').hide();
+        $('#confirmEdit').hide();
         return;
     });
 
@@ -142,9 +144,9 @@ function editTodo(id){
             $('select[name=category]').val(a.category);
             $('input[name=priority][value="'+a.priority+'"]').prop('checked', true);
             $('textarea[name=description]').val(a.description);
-            $('input[type=submit]').css('display', 'none');
-            $('#deleteEdit').css('display', 'block');
-            $('#confirmEdit').css('display', 'block').attr('class', id);
+            $('input[type=submit]').hide();
+            $('#deleteEdit').show();
+            $('#confirmEdit').show().attr('class', id);
         }
     })
 }
@@ -223,7 +225,7 @@ function check(id, done){
 var liChecked=[];
 //elimina o passa all'altra lista più elementi contemporaneamente
 function checkLi(id, done, th){
-    $('#contenitoreTabs p').css('display', 'block');
+    $('#contenitoreTabs p').show();
     
     //confronta se la checkbox cliccata è stata attivata o diisattivata
     switch($(th).prop('checked')){
@@ -255,7 +257,7 @@ function checkLi(id, done, th){
                 }
                 //filtro le checkbox disabilitate e se non ce ne sono disabilito la select delle opzioni
                 if($('#contenitoreTabs input[type=checkbox]').filter(':checked').length==0){
-                    $('#contenitoreTabs p').css('display', 'none');
+                    $('#contenitoreTabs p').hide();
                 }
                 //trovami nell'array l'elemento con lo stesso id e toglilo dalla lista delle modifiche
                 $.each(liChecked, function(i){
