@@ -1,6 +1,14 @@
-li{
-    list-style: none;
+body{
+    margin-top: 10px;
 }
-#contenitoreTabs p, #deleteEdit, #confirmEdit{
+i{
+    cursor: pointer;
+}
+#contenitoreTabs p, #deleteEdit, #confirmEdit, #contenitoreDone{
     display: none;
+}
+.circle{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
 }

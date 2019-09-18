@@ -1,30 +1,12 @@
 {
   "todos": [
     {
-      "title": "Bootstrap Doc",
-      "category": "Lavoro",
-      "priority": "alta",
-      "description": "Studiare la documentazione di bootstrap v3",
-      "done": "false",
-      "id": 2,
-      "checked": "true"
-    },
-    {
       "title": "committare su repository github",
       "category": "Lavoro",
       "priority": "media",
       "description": "",
-      "id": 3,
-      "done": "false"
-    },
-    {
-      "title": "Rifare il letto",
-      "category": "Casa",
-      "priority": "bassa",
-      "description": "",
-      "id": 4,
       "done": "true",
-      "checked": "true"
+      "id": 3
     },
     {
       "title": "Orario",

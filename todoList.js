@@ -18,6 +18,10 @@ $(document).ready(function(){
             $('input[name=title]')
             .css('border', 'solid 1px red')
             .attr('placeholder', 'Campo obbligatiorio')
+        }else if(!inputs.category){
+            $('select[name=category]')
+            .css('border', 'solid 1px red')
+            .attr('placeholder', 'Campo obbligatorio')
         } else {
             //chiamata in POST al server per aggiungere la nuova riga alla lista
             $.ajax({
@@ -32,6 +36,29 @@ $(document).ready(function(){
             })
         }
     });
+
+    //Al click del bottone todos, mostra la lista todo e nasconde la lista done
+    $('button#todos').on('click', function(){
+        $('#contenitoreTodo').css('display', 'block');
+        $('#contenitoreDone').css('display', 'none');
+        $('button#todos').css({'width': '75%', 'transition-propety': 'width', 'transition-duration': '750ms'})
+        $('button#done').css({'width': '25%', 'transition-propety': 'width', 'transition-duration': '750ms'})
+        $('#contenitoreTabs p').css('display', 'none');
+        $('select[name=selectTodo]').css('border', 'none');
+        $('select[name=selectDone]').css('border', 'none');
+        $('#contenitoreDone input[type=checkbox]').prop('checked', false);
+    })
+    //Al click del bottone done, mostra la lista done e nasconde la lista todos
+    $('button#done').on('click', function(){
+        $('#contenitoreTodo').css('display', 'none');
+        $('#contenitoreDone').css('display', 'block');
+        $('button#todos').css({'width': '25%', 'transition-propety': 'width', 'transition-duration': '750ms'})
+        $('button#done').css({'width': '75%', 'transition-propety': 'width', 'transition-duration': '750ms'})
+        $('#contenitoreTabs p').css('display', 'none');
+        $('select[name=selectTodo]').css('border', 'none');
+        $('select[name=selectDone]').css('border', 'none');
+        $('#contenitoreTodo input[type=checkbox]').prop('checked', false);
+    })
     
     //Annulla la modifica di un elemento
     $('#deleteEdit').on('click', function(){
@@ -74,6 +101,22 @@ $(document).ready(function(){
     });
 })
 
+//seleziona tutte le checkbox della corrispettiva lista
+$('#selectAllTodo').on('click', function(){
+    $('#contenitoreTodo input[type=checkbox]').each(function(){
+        $(this).prop('checked', true)
+        checkLi($(this).attr('class'), false, this)
+    })
+    $(this).hide();
+})
+$('#selectAllDone').on('click', function(){
+    $('#contenitoreDone input[type=checkbox]').each(function(){
+        $(this).prop('checked', true)
+        checkLi($(this).attr('class'), true, this)
+    })
+    $(this).hide();
+})
+
 //elimina un elemento dalla lista
 function deleteTodo(id){
     //chiamata in DELETE al server per eliminare un elemento 
@@ -108,39 +151,59 @@ function editTodo(id){
 
 //Aggiorna le liste
 function updateTodoList(){
-        //chiamata in GET al server per ricevere i valori da inserire all'interno delle liste
-        $.ajax({
-            dataType: 'json',
-            type: 'GET',
-            url: 'http://localhost:3000/todos',
-            success: function(a){
-                $.each(a, function(i){
-                    //per ogni oggetto nel file json controlla se è da fare oppure già fatto e inseridcilo nella giusta lista
-                    if(a[i].done==true||a[i].done=='true'){
-                        $('#contenitoreDone ul').append('<li id="'+i+'"><input id="wow" type="checkbox" onchange="checkLi('+a[i].id+','+a[i].done+', this)"></li><button onclick="deleteTodo('+a[i].id+')">Delete</button><button onclick="check('+a[i].id+', '+a[i].done+')">StillTodo</button>');
-                        //per ogni oggetto recupera il nome della chiave e il valore
-                        $.each(a[i], function(name, value){
-                            //non mostrare le seguenti chiavi con nome: done e id; anche chi non ha valore
-                            if(name!='done' && name!='id' && value){
-                                //inserimento della chiave con il corrispettivo valore
-                                $('#contenitoreDone ul li#'+i).append('<strong>'+name+'</strong>'+': '+value+'<strong>; </strong>');
+    //chiamata in GET al server per ricevere i valori da inserire all'interno delle liste
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'http://localhost:3000/todos',
+        success: function(a){
+            $.each(a, function(i){
+                //per ogni oggetto nel file json controlla se è da fare oppure già fatto e inseridcilo nella giusta lista
+                if(a[i].done==true||a[i].done=='true'){
+                    $('#contenitoreDone div table tbody').append('<tr id="'+i+'"><td><input type="checkbox" class="'+a[i].id+'" onchange="checkLi('+a[i].id+','+a[i].done+', this)"> &nbsp; &nbsp;<i class="material-icons" onclick="deleteTodo('+a[i].id+')">delete</i>&nbsp;<i class="material-icons" onclick="check('+a[i].id+', '+a[i].done+')">check_circle</i></td></tr>')
+                    $.each(a[i], function(name, value){
+                        if(name!='id' && name!='done' && name!='checked'){
+                            switch(value){
+                                case 'alta':
+                                    $('#contenitoreDone table tbody tr#'+i).append('<td><div class="circle" style="background-color: red"><div></td>');
+                                    break;
+                                case 'media':
+                                        $('#contenitoreDone table tbody tr#'+i).append('<td><div class="circle" style="background-color: orange"><div></td>');
+                                    break;
+                                case 'bassa':
+                                        $('#contenitoreDone table tbody tr#'+i).append('<td><div class="circle" style="background-color: yellow"><div></td>');
+                                    break;
+                                default:
+                                    $('#contenitoreDone table tbody tr#'+i).append('<td>'+value+'</td>');
+                                break;
                             }
-                        });
-                    }else{
-                        $('#contenitoreTodo ul').append('<li id="'+i+'"><input type="checkbox" onclick="checkLi('+a[i].id+','+a[i].done+', this)"></li><button onclick="editTodo('+a[i].id+')">Edit</button><button onclick="deleteTodo('+a[i].id+')">Delete</button><button onclick="check('+a[i].id+')">Done</button>');
-                        //per ogni oggetto recupera il nome della chiave e il valore
-                        $.each(a[i], function(name, value){
-                            //non mostrare le seguenti chiavi con nome: done e id; anche chi non ha valore
-                            if(name!='id'&& name!='done' && value){
-                                //inserimento della chiave con il corrispettivo valore
-                                $('#contenitoreTodo ul li#'+i).append('<strong>'+name+'</strong>'+': '+ value + '<strong>; </strong>');     
+                        }
+                    });
+                }else{
+                    $('#contenitoreTodo div table tbody').append('<tr id="'+i+'"><td><input type="checkbox" class="'+a[i].id+'" onchange="checkLi('+a[i].id+','+a[i].done+', this)"> &nbsp; &nbsp;<i class="material-icons" onclick="editTodo('+a[i].id+')">edit</i>&nbsp;<i class="material-icons" onclick="deleteTodo('+a[i].id+')">delete</i>&nbsp;<i class="material-icons" onclick="check('+a[i].id+')">check_circle_outline</i></td></tr>')
+                    $.each(a[i], function(name, value){
+                        if(name!='id' && name!='done' && name!='checked'){
+                            switch(value){
+                                case 'alta':
+                                    $('#contenitoreTodo table tbody tr#'+i).append('<td><div class="circle" style="background-color: red"><div></td>');
+                                    break;
+                                case 'media':
+                                        $('#contenitoreTodo table tbody tr#'+i).append('<td><div class="circle" style="background-color: orange"><div></td>');
+                                    break;
+                                case 'bassa':
+                                        $('#contenitoreTodo table tbody tr#'+i).append('<td><div class="circle" style="background-color: yellow"><div></td>');
+                                    break;
+                                default:
+                                    $('#contenitoreTodo table tbody tr#'+i).append('<td>'+value+'</td>');
+                                break;
                             }
-                        });
-                    }
-                });
-            }
-        });
-    }
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
 
 //passa una riga da una lista all'altra a seconda della lista in cui si trova
 function check(id, done){
@@ -168,20 +231,28 @@ function checkLi(id, done, th){
         case true:
             //confronta se la riga si trova nella lista todo oppure done
             if(done){
+                
                 //rimuovo le opzioni per un nuovo rendering che mostra le opzioni "ancora da fare" o "elimina"
-                $('select[name=selectLi] option').remove();
-                $('select[name=selectLi]').append('<option selected><option value="stillTodo">Still Todo</option></option><option value="delete">Delete</option>');       
+                $('select[name=selectDone] option').remove();
+                $('select[name=selectDone]').append('<option selected><option value="stillTodo">Still Todo</option></option><option value="delete">Delete</option>');       
                 //inserisce nell'array un oggetto con le chiavi id e checked per poi apportare le modifiche
                 liChecked[liChecked.length]={'id': id, 'checked':true};
             }else{
+                
                 //rimuovo le opzioni per un nuovo rendering che mostra le opzioni "fatto" o "elimina"
-                $('select[name=selectLi] option').remove();
-                $('select[name=selectLi]').append('<option selected></option><option value="done">Done</option><option value="delete">Delete</option>');
+                $('select[name=selectTodo] option').remove();
+                $('select[name=selectTodo]').append('<option selected></option><option value="done">Done</option><option value="delete">Delete</option>');
                 //inserisce nell'array un oggetto con le chiavi id e checked per poi apportare le modifiche                
                 liChecked[liChecked.length]={'id': id, 'checked':true};
             }
             break;
         case false:
+                if($('#contenitoreTodo input[type=checkbox]').length != $('#contenitoreTodo input[type=checkbox]').filter(':checked').length){
+                    $('#selectAllTodo').show();
+                }
+                if($('#contenitoreDone input[type=checkbox]').length != $('#contenitoreDone input[type=checkbox]').filter(':checked').length){
+                    $('#selectAllDone').show();
+                }
                 //filtro le checkbox disabilitate e se non ce ne sono disabilito la select delle opzioni
                 if($('#contenitoreTabs input[type=checkbox]').filter(':checked').length==0){
                     $('#contenitoreTabs p').css('display', 'none');
@@ -199,7 +270,7 @@ function checkLi(id, done, th){
 //conferma l'opzione scelta ed eseguila sulle righe dove la checkbox è attivata
 function confirmSelect(){
     //confronta il valore della select delle opzioni
-    switch($('select[name=selectLi]').val()){
+    switch($('select[name=selectTodo]').val()||$('select[name=selectDone]').val()){
         case 'done':
             //per ogni riga checkata cambiami lista, opzione "fatto" della select
             $.each(liChecked, function(i){
@@ -249,7 +320,8 @@ function confirmSelect(){
             break;
         default:
             //errore se la select ha come opzione vuota
-            $('select[name=selectLi]').css('border', 'solid 1px red');
+            $('select[name=selectTodo]').css('border', 'solid 1px red');
+            $('select[name=selectDone]').css('border', 'solid 1px red');
             break;
     }
 }

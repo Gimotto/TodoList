@@ -1,50 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TO-DO</title>
+    <!--Meta bootstrap-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scaleble=no">
+    <!--Link css bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Link Google Material Icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--File css-->
     <link rel="stylesheet" href="todoList.css">
+    <title>TO-DO</title>
 </head>
 <body>
-    <form id="formAdd">
-        <div id="contenitore">
-            <p><sup>*</sup>Titolo:   <input type="text" name="title"></p>
-                
-            <p><sup>*</sup>Categoria :   <select name="category">
-                <option value=""></option>
-                <option value="Casa">Casa</option>
-                <option value="Lavoro">Lavoro</option>
-                <option value="Famiglia">Famiglia</option>
-                <option value="Palestra">Palestra</option>
-            </select></p>
-                
-            <p>Priorità:    
-                <input type="radio" name="priority" value="alta">Alta
-                <input type="radio" name="priority" checked value="media">Media
-                <input type="radio" name="priority" value="bassa">Bassa
-            </p>
-
-            <p>Descrizione:         
-                <textarea type="text" name="description"></textarea>
-            </p>
-
-            <input type="submit" value="Add">
+    <form class="jumbotron" id="formAdd">
+        <div class="form-inline  row justify-content-center">
+            <sup>*</sup>Title:&nbsp;
+            <input type="text" name="title">
+        </div>
+        <br>
+        <div class="form-inline  row justify-content-center">
+            <sup>*</sup>Category: &nbsp;
+            <select name="category">
+                    <option value="">--Select a category--</option>
+                    <option value="Casa">Casa</option>
+                    <option value="Lavoro">Lavoro</option>
+                    <option value="Famiglia">Famiglia</option>
+                    <option value="Palestra">Palestra</option>
+            </select>
+        </div>
+        <br>
+        <div class="form-inline row justify-content-center">
+            Priority: &nbsp; &nbsp;
+            <input type="radio" name="priority" value="alta">High &nbsp;
+            <input type="radio" name="priority" checked value="media">Medium &nbsp;
+            <input type="radio" name="priority" value="bassa">Low
+        </div>
+        <br>
+        <div class="form-inline row justify-content-center">
+            Description: &nbsp;
+            <textarea name="description" cols="20" rows="3"></textarea>
+        </div>
+        <br>
+        <div class="form-inline row justify-content-center">
+            <input type="submit" value="Add" class="btn btn-primary mb-2">
             <input type="button" id="deleteEdit" value="Delete edit">
             <input type="button" id="confirmEdit" value="Confirm edit">
         </div>
     </form>
 
     <br>
-    <div id="contenitoreTabs">
-        <p><select name="selectLi"></select><button name="confirmSelect" onclick="confirmSelect()">Confirm</button></p>
-        <!--button class="active">TODOS</button><button>DONE</button-->
-        <div id="contenitoreTodo"><h1>TODOS</h1> <ul>  </ul> </div>
-        <div id="contenitoreDone"><h1>DONE</h1> <ul>  </ul> </div>
+    <!--Contenitore dei bottoni e delle liste-->
+    <div class="container jumbotron" id="contenitoreTabs">
+            
+            
+        <!--Bottoni per cambiare la lista-->
+        <button id="todos" class="active" style="width: 75%"><h3>TODOS</h3></button><button id="done" class="deactive" style="width: 25%"><h3>DONE</h3></button>
+            
+        <!--Contenitore Todo-->
+        <div class="container-fluid" id="contenitoreTodo">
+            <div class="table-responsive">
+                <table class="table table-hovered">
+                    <thead>
+                        <tr>
+                            <th class="text-left" scope="col"><button id="selectAllTodo">Select all </button>
+                                <p>
+                                        <select name="selectTodo"></select>
+                                        <button name="confirmSelect" onclick="confirmSelect()">Confirm</button>
+                                    </p>
+                            </th>
+                            <th class="text-left" scope="col">Title</th>
+                            <th class="text-left" scope="col">Category</th>
+                            <th class="text-left" scope="col">Priority</th>
+                            <th class="text-left" scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--Contenitore Done-->
+        <div class="container-fluid" id="contenitoreDone">
+            <div class="table-responsive">
+                <table class="table table-hovered">
+                    <thead>
+                        <tr>
+                            <th class="text-left"><button id="selectAllDone">Select all</button>
+                                <p>
+                                        <select name="selectDone"></select>
+                                        <button name="confirmSelect" onclick="confirmSelect()">Confirm</button>
+                                    </p>
+                            </th>
+                            <th class="text-left" scope="col">Title</th>
+                            <th class="text-left" scope="col">Category</th>
+                            <th class="text-left" scope="col">Priority</th>
+                            <th class="text-left" scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table> 
+            </div>
+        </div>
     </div>
 
     
-    
-    
     <script src="jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="todoList.js"></script>
 </body>
 </html>
