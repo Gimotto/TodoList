@@ -151,12 +151,22 @@ function openModal(id, task, title){
     $('div.modal-footer').html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Nope, Close</button>');
     switch(task){
         case 'todo':
-            $('div.modal-body').html('Confirm to delete "'+$('#contenitoreTodo input[type=checkbox]').filter(':checked').length+'" element from the list TODO?');
-            $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Delete</button>');
+            if($('select[name=selectTodo]').val()=='done'){
+                $('div.modal-body').html('Confirm to move "'+$('#contenitoreTodo input[type=checkbox]').filter(':checked').length+'" element from TODO to DONE?');
+                $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Move</button>');
+            }else{
+                $('div.modal-body').html('Confirm to delete "'+$('#contenitoreTodo input[type=checkbox]').filter(':checked').length+'" element from the list TODO?');
+                $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Delete</button>');
+            }
             break;
         case 'done':
-            $('div.modal-body').html('Confirm to delete "'+$('#contenitoreDone input[type=checkbox]').filter(':checked').length+'" element from the list DONE?');
-            $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Delete</button>');
+            if($('select[name=selectDone]').val()=='stillTodo'){
+                $('div.modal-body').html('Confirm to move "'+$('#contenitoreDone input[type=checkbox]').filter(':checked').length+'" element from DONE to TODO?');
+                $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Move</button>');
+            }else{
+                $('div.modal-body').html('Confirm to delete "'+$('#contenitoreDone input[type=checkbox]').filter(':checked').length+'" element from the list DONE?');
+                $('div.modal-footer').append('<button type="button" class="btn btn-primary" onclick="confirmSelect()">Yep, Delete</button>');
+            }
             break;
         default:
             $('div.modal-body').html('Confirm to delete: "'+title+'"');
